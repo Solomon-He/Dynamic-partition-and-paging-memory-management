@@ -85,10 +85,12 @@ import ControlPanel from './components/ControlPanel.vue'
       display: flex;
       flex-direction: column;
       gap: 20px;
+      min-height: 0;
 
       .visualization-container,
       .table-container {
         padding: 16px;
+        overflow: hidden;
       }
 
       .visualization-container {
@@ -97,6 +99,9 @@ import ControlPanel from './components/ControlPanel.vue'
 
       .table-container {
         flex: 3;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
       }
     }
 
