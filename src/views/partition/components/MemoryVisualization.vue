@@ -98,31 +98,42 @@ const getLineOption = computed(() => {
     tooltip: {
       trigger: 'axis',
       formatter: function (params) {
-        const data = params[0].data
-        return `${new Date(data[0]).toLocaleTimeString()}<br/>使用率：${data[1]}%`
+        if (params && params[0] && params[0].data) {
+          const timestamp = params[0].data.value[0]
+          const usage = params[0].data.value[1]
+          const time = new Date(timestamp).toLocaleTimeString('zh-CN', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          })
+          return `时间：${time}<br/>使用率：${usage}%`
+        }
+        return ''
       },
     },
     grid: {
       left: '3%',
       right: '4%',
-      bottom: '3%',
+      bottom: '8%',
       top: '40px',
       containLabel: true,
     },
     xAxis: {
       type: 'time',
-      splitLine: {
-        show: false,
-      },
+      show: false,
     },
     yAxis: {
       type: 'value',
       min: 0,
       max: 100,
+      interval: 20,
       splitLine: {
         lineStyle: {
           type: 'dashed',
         },
+      },
+      axisLabel: {
+        formatter: '{value}%',
       },
     },
     series: [
