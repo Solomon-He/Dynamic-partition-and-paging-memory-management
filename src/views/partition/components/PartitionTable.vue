@@ -1,9 +1,27 @@
 <script setup>
 import { usePartitionStore } from '@/stores/partition'
 import { storeToRefs } from 'pinia'
+import { ref, watch, nextTick } from 'vue'
 
 const store = usePartitionStore()
 const { freePartitions, occupiedPartitions, processes } = storeToRefs(store)
+
+// 添加对时间线容器的引用
+const timelineWrapper = ref(null)
+
+// 监听进程列表变化
+watch(
+  () => processes.value,
+  () => {
+    // 等待 DOM 更新后滚动到底部
+    nextTick(() => {
+      if (timelineWrapper.value) {
+        timelineWrapper.value.scrollTop = timelineWrapper.value.scrollHeight
+      }
+    })
+  },
+  { deep: true },
+)
 
 // 获取进程状态对应的图标类型和颜色
 const getProcessStatusInfo = (status) => {
@@ -84,7 +102,7 @@ const formatProcessId = (id) => {
       <!-- 进程记录日志 -->
       <div class="process-log">
         <h4>进程记录</h4>
-        <div class="timeline-wrapper">
+        <div class="timeline-wrapper" ref="timelineWrapper">
           <el-timeline>
             <el-timeline-item
               v-for="process in processes"
@@ -171,7 +189,8 @@ const formatProcessId = (id) => {
         flex: 1; // 占满剩余空间
         overflow-y: auto; // 启用垂直滚动
         min-height: 0; // 允许容器在 flex 布局中收缩
-        padding: 0 8px 0 4px; // 设置内边距，左侧留出更多空间给时间线节点
+        padding: 0 8px 0 4px;
+        scroll-behavior: smooth; // 添加平滑滚动效果
 
         // 自定义滚动条样式
         &::-webkit-scrollbar {
