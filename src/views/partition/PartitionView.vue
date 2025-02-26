@@ -89,16 +89,16 @@ import ControlPanel from './components/ControlPanel.vue'
 
       .visualization-container,
       .table-container {
-        padding: 16px;
+        padding: 8px 16px;
         overflow: hidden;
       }
 
       .visualization-container {
-        flex: 2;
+        flex: 1;
       }
 
       .table-container {
-        flex: 3;
+        flex: 1;
         display: flex;
         flex-direction: column;
         min-height: 0;

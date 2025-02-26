@@ -40,6 +40,11 @@ export const usePartitionStore = defineStore('partition', {
 
     // 添加等待队列
     waitingQueue: [], // 存储等待内存分配的进程
+
+    // 添加内存使用历史记录
+    memoryHistory: [
+      // 每项格式: { timestamp: number, usage: number }
+    ],
   }),
 
   getters: {
@@ -127,6 +132,9 @@ export const usePartitionStore = defineStore('partition', {
 
       // 清空等待队列
       this.waitingQueue = []
+
+      // 清空历史记录
+      this.memoryHistory = []
     },
 
     // 创建新进程
@@ -153,6 +161,9 @@ export const usePartitionStore = defineStore('partition', {
         // 分配失败，加入等待队列
         this.waitingQueue.push(process)
       }
+
+      // 记录内存使用情况
+      this.recordMemoryUsage()
 
       return processId
     },
@@ -273,6 +284,9 @@ export const usePartitionStore = defineStore('partition', {
 
       // 释放内存并尝试分配给等待的进程
       this.releaseMemory(processId)
+
+      // 记录内存使用情况
+      this.recordMemoryUsage()
     },
 
     // 释放内存
@@ -307,6 +321,20 @@ export const usePartitionStore = defineStore('partition', {
         } else {
           i++
         }
+      }
+    },
+
+    // 记录内存使用情况
+    recordMemoryUsage() {
+      const usage = Number(this.memoryUsage)
+      this.memoryHistory.push({
+        timestamp: Date.now(),
+        usage,
+      })
+
+      // 只保留最近 20 个数据点
+      if (this.memoryHistory.length > 20) {
+        this.memoryHistory.shift()
       }
     },
   },
