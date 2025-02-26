@@ -40,17 +40,17 @@ const getPieOption = computed(() => {
         return `${params.name}<br/>大小：${params.value}KB (${params.percent}%)`
       },
     },
-    legend: {
-      orient: 'horizontal',
-      bottom: '0',
-      data: [
-        '操作系统',
-        '空闲',
-        ...data
-          .filter((item) => !['操作系统', '空闲'].includes(item.name))
-          .map((item) => item.name),
-      ],
-    },
+    // legend: {
+    //   orient: 'horizontal',
+    //   bottom: '0',
+    //   data: [
+    //     '操作系统',
+    //     '空闲',
+    //     ...data
+    //       .filter((item) => !['操作系统', '空闲'].includes(item.name))
+    //       .map((item) => item.name),
+    //   ],
+    // },
     series: [
       {
         name: '内存使用情况',
