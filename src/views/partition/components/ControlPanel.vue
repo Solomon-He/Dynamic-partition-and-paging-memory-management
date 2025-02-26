@@ -167,7 +167,7 @@ const createProcess = async () => {
           <el-radio
             v-for="option in algorithmOptions"
             :key="option.value"
-            :label="option.value"
+            :value="option.value"
             border
           >
             {{ option.label }}

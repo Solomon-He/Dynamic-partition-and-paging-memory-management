@@ -103,7 +103,7 @@ const formatProcessId = (id) => {
                 </div>
                 <div class="process-info">
                   <span>大小: {{ process.size }}KB</span>
-                  <span>时长: {{ process.duration }}s</span>
+                  <span>时长: {{ process.duration || '-' }} s</span>
                 </div>
               </div>
             </el-timeline-item>
@@ -129,12 +129,27 @@ const formatProcessId = (id) => {
     overflow: hidden; // 防止内容溢出
 
     .partition-info {
-      flex: 3; // 占据 3/5 的宽度
-      display: flex; // 启用 flex 布局
-      flex-direction: column; // 纵向排列
-      gap: 20px; // 子元素间距
-      min-width: 0; // 允许容器在 flex 布局中收缩
-      overflow: hidden; // 防止内容溢出
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 0;
+      overflow-y: auto; // 添加垂直滚动
+      padding-right: 8px; // 为滚动条留出空间
+
+      // 自定义滚动条样式
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: var(--el-border-color-lighter);
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
 
       .table-section {
         flex-shrink: 0; // 防止表格被压缩
