@@ -211,7 +211,7 @@ const createProcess = async () => {
           :max="60"
           :step="1"
           controls-position="right"
-          placeholder="不填则随机生成3-15秒"
+          placeholder="不填则随机生成5-20秒"
         />
       </el-form-item>
 

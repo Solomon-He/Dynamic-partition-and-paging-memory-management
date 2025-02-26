@@ -17,6 +17,6 @@ export const generateId = () => {
  * @param {number} max 最大时间（秒）
  * @returns {number} 随机生成的运行时间
  */
-export const generateRandomDuration = (min = 3, max = 15) => {
+export const generateRandomDuration = (min = 5, max = 20) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
