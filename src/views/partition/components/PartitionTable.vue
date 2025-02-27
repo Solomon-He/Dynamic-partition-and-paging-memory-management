@@ -23,26 +23,14 @@ watch(
   { deep: true },
 )
 
-// 获取进程状态对应的图标类型和颜色
+// 获取进程状态对应的图标类型
 const getProcessStatusInfo = (status) => {
   const statusMap = {
-    waiting: {
-      type: 'info',
-      icon: 'Clock',
-      color: '#909399',
-    },
-    running: {
-      type: 'success',
-      icon: 'VideoPlay',
-      color: '#67C23A',
-    },
-    finished: {
-      type: 'warning',
-      icon: 'CircleCheck',
-      color: '#E6A23C',
-    },
+    waiting: 'info',
+    running: 'success',
+    finished: 'warning',
   }
-  return statusMap[status] || statusMap.waiting
+  return statusMap[status] || 'info'
 }
 
 // 格式化进程ID显示
@@ -107,15 +95,14 @@ const formatProcessId = (id) => {
             <el-timeline-item
               v-for="process in processes"
               :key="process.id"
-              :type="getProcessStatusInfo(process.status).type"
-              :color="getProcessStatusInfo(process.status).color"
-              :icon="getProcessStatusInfo(process.status).icon"
-              size="large"
+              :type="getProcessStatusInfo(process.status)"
+              size="normal"
+              :hollow="true"
             >
               <div class="timeline-content">
                 <div class="process-header">
                   <span class="process-id">{{ formatProcessId(process.id) }}</span>
-                  <el-tag :type="getProcessStatusInfo(process.status).type" size="small">
+                  <el-tag :type="getProcessStatusInfo(process.status)" size="small">
                     {{ process.status }}
                   </el-tag>
                 </div>
@@ -234,6 +221,20 @@ const formatProcessId = (id) => {
           color: var(--el-text-color-regular); // 使用常规文本颜色
           font-size: 13px; // 设置字体大小
         }
+      }
+
+      // 添加时间线样式
+      :deep(.el-timeline-item__node) {
+        width: 12px !important; // 强制设置节点宽度
+        height: 12px !important; // 强制设置节点高度
+      }
+
+      :deep(.el-timeline-item__wrapper) {
+        padding-bottom: 16px; // 时间线项底部内边距
+      }
+
+      :deep(.el-timeline-item__tail) {
+        border-left-style: dashed; // 时间线使用虚线样式
       }
     }
   }

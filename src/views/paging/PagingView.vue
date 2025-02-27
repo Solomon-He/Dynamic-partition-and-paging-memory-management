@@ -2,6 +2,7 @@
 import PageVisualization from './components/PageVisualization.vue'
 import PageTable from './components/PageTable.vue'
 import ControlPanel from './components/ControlPanel.vue'
+import InstructionTimeline from './components/InstructionTimeline.vue'
 </script>
 
 <template>
@@ -9,35 +10,33 @@ import ControlPanel from './components/ControlPanel.vue'
     <!-- 页面标题区域 -->
     <div class="page-header">
       <h2>动态分页管理</h2>
-      <div class="description">
-        <el-alert type="info" :closable="false" show-icon>
-          <template #default>
-            使用 FIFO 算法进行页面置换，可视化展示置换过程，实时显示页表状态变化，支持物理地址计算。
-          </template>
-        </el-alert>
-      </div>
+      <p class="description">
+        使用 FIFO 算法进行页面置换，可视化展示置换过程，实时显示页表状态变化，支持物理地址计算。
+      </p>
     </div>
 
     <!-- 主要内容区域 -->
     <div class="page-content">
-      <!-- 左侧：页面可视化和页表在同一个卡片中 -->
-      <div class="left-section">
-        <div class="card">
-          <div class="visualization-container">
-            <PageVisualization />
-          </div>
-          <div class="divider"></div>
-          <div class="table-container">
+      <!-- 左侧：可视化和状态 -->
+      <div class="section left-section">
+        <!-- 可视化区域 -->
+        <div class="visualization-container">
+          <PageVisualization />
+        </div>
+        <!-- 状态区域 -->
+        <div class="status-container">
+          <div class="table-section">
             <PageTable />
+          </div>
+          <div class="timeline-section">
+            <InstructionTimeline />
           </div>
         </div>
       </div>
 
       <!-- 右侧：控制面板 -->
-      <div class="right-section">
-        <div class="card">
-          <ControlPanel />
-        </div>
+      <div class="section right-section">
+        <ControlPanel />
       </div>
     </div>
   </div>
@@ -51,7 +50,6 @@ import ControlPanel from './components/ControlPanel.vue'
   flex-direction: column;
   gap: 16px;
   background-color: var(--el-bg-color);
-  box-sizing: border-box;
 
   .page-header {
     flex-shrink: 0;
@@ -64,20 +62,9 @@ import ControlPanel from './components/ControlPanel.vue'
     }
 
     .description {
-      :deep(.el-alert) {
-        padding: 8px 16px;
-
-        .el-alert__content {
-          flex: 1;
-          padding: 0;
-          font-size: 13px;
-          color: var(--el-text-color-regular);
-        }
-
-        .el-alert__icon {
-          margin-right: 8px;
-        }
-      }
+      margin-top: 8px;
+      color: var(--el-text-color-secondary);
+      font-size: 14px;
     }
   }
 
@@ -87,51 +74,46 @@ import ControlPanel from './components/ControlPanel.vue'
     gap: 20px;
     min-height: 0;
 
-    .left-section {
-      flex: 7;
+    // 公共样式
+    .section {
       min-height: 0;
       display: flex;
       flex-direction: column;
+      background-color: var(--el-bg-color-overlay);
+      border-radius: 8px;
+      box-shadow: var(--el-box-shadow-light);
+      padding: 8px 16px;
+      overflow: hidden;
+    }
+
+    .left-section {
+      flex: 7;
+
+      .visualization-container {
+        flex: 1;
+        min-height: 0;
+      }
+
+      .status-container {
+        flex: 1;
+        display: flex;
+        gap: 30px;
+        min-height: 0;
+
+        .table-section {
+          flex: 5;
+          min-height: 0;
+        }
+
+        .timeline-section {
+          flex: 3;
+          min-height: 0;
+        }
+      }
     }
 
     .right-section {
       flex: 3;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card {
-      flex: 1;
-      background-color: var(--el-bg-color-overlay);
-      border-radius: 8px;
-      box-shadow: var(--el-box-shadow-light);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-    }
-
-    .left-section .card {
-      .visualization-container {
-        flex: 2;
-        min-height: 0;
-      }
-
-      .divider {
-        height: 1px;
-        background-color: var(--el-border-color-lighter);
-        margin: 16px 0;
-      }
-
-      .table-container {
-        flex: 3;
-        min-height: 0;
-      }
-    }
-
-    .right-section .card {
-      overflow: hidden; // 确保内容不会溢出
     }
   }
 }

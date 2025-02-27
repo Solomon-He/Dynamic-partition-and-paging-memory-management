@@ -149,8 +149,15 @@ const resetSystem = () => {
 <style lang="scss" scoped>
 .control-panel {
   padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   .instruction-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
     .el-divider {
       margin: 24px 0;
 
