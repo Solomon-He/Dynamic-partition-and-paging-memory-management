@@ -88,14 +88,15 @@ import InstructionTimeline from './components/InstructionTimeline.vue'
 
     .left-section {
       flex: 7;
+      gap: 25px;
 
       .visualization-container {
-        flex: 1;
+        flex: 5;
         min-height: 0;
       }
 
       .status-container {
-        flex: 1;
+        flex: 6;
         display: flex;
         gap: 30px;
         min-height: 0;
