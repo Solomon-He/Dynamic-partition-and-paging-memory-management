@@ -53,6 +53,15 @@ const getExecutionResult = (instructionId) => {
                 >
                   {{ getExecutionResult(instruction.id)?.pageFault ? '缺页' : '不缺页' }}
                 </el-tag>
+                <el-tag
+                  v-if="getExecutionResult(instruction.id)?.replacedPage !== undefined"
+                  type="danger"
+                  size="small"
+                  effect="light"
+                  round
+                >
+                  淘汰页：{{ getExecutionResult(instruction.id)?.replacedPage }}
+                </el-tag>
               </div>
               <div class="right">
                 <el-tag size="small" effect="plain" round>

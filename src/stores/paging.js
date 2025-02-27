@@ -58,6 +58,9 @@ export const usePagingStore = defineStore('paging', {
       newPage.flag = true
       newPage.frameNo = frameNo
       this.allocatedFramesList.push(pageNo)
+
+      // 返回被淘汰的页号，供后续使用
+      return victimPageNo
     },
 
     // 添加新指令
@@ -76,9 +79,11 @@ export const usePagingStore = defineStore('paging', {
     executeInstruction(instruction) {
       const page = this.pageTable[instruction.pageNo]
       const pageFault = !page.flag
+      let replacedPage = undefined
 
       if (pageFault) {
-        this.handlePageFault(instruction.pageNo)
+        // 调用处理缺页中断函数，并获取被淘汰的页号
+        replacedPage = this.handlePageFault(instruction.pageNo)
       }
 
       // 如果是存储操作，设置修改标志
@@ -89,16 +94,18 @@ export const usePagingStore = defineStore('paging', {
       // 计算物理地址
       const physicalAddress = page.frameNo * 1024 + instruction.offset
 
-      // 记录执行历史
+      // 记录执行历史，添加被淘汰页信息
       this.executionHistory.push({
         instructionId: instruction.id,
         physicalAddress,
         pageFault,
+        replacedPage: pageFault ? replacedPage : undefined,
       })
 
       return {
         physicalAddress,
         pageFault,
+        replacedPage: pageFault ? replacedPage : undefined,
       }
     },
 

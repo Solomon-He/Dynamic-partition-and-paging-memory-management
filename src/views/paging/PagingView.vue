@@ -106,7 +106,7 @@ import InstructionTimeline from './components/InstructionTimeline.vue'
         }
 
         .timeline-section {
-          flex: 3;
+          flex: 4;
           min-height: 0;
         }
       }
